@@ -1,7 +1,7 @@
 package router
 
 import (
-	"ChallengeFileServer/server/backend/controllers"
+	"ChallengeFileServerGo/server/controllers"
 
 	"fmt"
 	"log"

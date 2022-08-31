@@ -1,8 +1,8 @@
 package main
 
 import (
-	"ChallengeFileServer/server/backend/controllers"
-	"ChallengeFileServer/server/backend/router"
+	"ChallengeFileServerGo/server/controllers"
+	"ChallengeFileServerGo/server/router"
 
 	"bufio"
 	"fmt"

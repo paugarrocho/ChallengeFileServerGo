@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"ChallengeFileServer/client/models"
+	"ChallengeFileServerGo/client/models"
 
 	"bufio"
 	"encoding/base64"

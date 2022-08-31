@@ -24,7 +24,7 @@ func main() {
 		log.Fatal(fmt.Sprintf(controllers.ERR_MESSAGE_IN, "net.Listen:"), err.Error())
 	}
 
-	controllers.CreateDefaultChannels()
+	/*controllers.CreateDefaultChannels()*/
 	go broadcaster()
 	go apiServer()
 

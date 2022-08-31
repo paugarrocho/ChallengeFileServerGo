@@ -41,13 +41,13 @@ var Users []models.User
 var Channels []models.ChannelRoom
 var Files []models.File
 
-func CreateDefaultChannels() {
+/*func CreateDefaultChannels() {
 	Channels = []models.ChannelRoom{
 		{Name: "channel-1"},
 		{Name: "channel-2"},
 		{Name: "channel-3"},
 	}
-}
+}*/
 
 func CreateMessage(msg string, user models.User) models.Message {
 	return models.Message{
@@ -108,7 +108,7 @@ func DecodeCommand(command, address string) (string, string) {
 		if commandParts[1] != "" {
 			ownMessage = CreateChannel(commandParts[1:], address)
 		}
-	case "suscribe":
+	case "subscribe":
 		ownMessage = ERR_UNDEF_CHAN
 		if commandParts[1] != "" {
 			ownMessage = SubscribeToChannel(commandParts[1:], address)

@@ -108,7 +108,7 @@ func DecodeCommand(command, address string) (string, string) {
 		if commandParts[1] != "" {
 			ownMessage = CreateChannel(commandParts[1:], address)
 		}
-	case "subs":
+	case "suscribe":
 		ownMessage = ERR_UNDEF_CHAN
 		if commandParts[1] != "" {
 			ownMessage = SubscribeToChannel(commandParts[1:], address)

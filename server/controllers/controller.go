@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"ChallengeFileServer/server/backend/models"
+	"ChallengeFileServerGo/server/models"
 
 	"fmt"
 	"log"

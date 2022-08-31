@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	CHANNELS_FOLDER     = "/home/paugarrocho/channelsFolder"
+	CHANNELS_FOLDER     = "/home/paugarrocho/Canales"
 	MAX_MEGABYTES       = 20
 	MAX_BUFFER_CAPACITY = MAX_MEGABYTES * 1024 * 1024
 )

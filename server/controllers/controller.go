@@ -14,22 +14,20 @@ const (
 )
 
 const (
-	ERR_MESSAGE_IN       = "Error in %s"
-	ERR_WRONG_COMM       = "Incorrect or incomplete command"
-	ERR_UNDEF_MSG        = "Unspecified message"
-	ERR_UNDEF_CHAN       = "Unspecified channel"
-	ERR_UNDEF_PATH       = "Unspecified file"
-	ERR_UNDEF_FILEDATA   = "File data not specified"
-	ERR_NOT_FOUND_CHAN   = "Channel not found"
-	ERR_NOT_SUBSCRIPTION = "You must first subscribe to a channel"
-	ERR_NOT_FOUND_USER   = "User not found"
-	ERR_DECODING_FILE    = "Error getting base64 data"
-	MSG_FROM_CHANNEL     = "Message from channel"
-	MSG_CHANNEL_EXISTS   = "Channel already exists"
-	MSG_SUBSCRIPTION     = "Successful subscription"
-	MSG_MESSAGE_SENT     = "Message sent"
-	MSG_FILE_SENT        = "File sent successfully"
-	MSG_FILE_RECEIVED    = "File %s has been received"
+	ERR_MESSAGE_IN          = "Error in %s"
+	ERR_WRONG_COMM          = "Incorrect or incomplete command"
+	ERR_UNDEF_MSG           = "Unspecified message"
+	ERR_UNDEF_CHAN          = "Unspecified channel"
+	ERR_UNDEF_PATH          = "Unspecified file"
+	ERR_UNDEF_FILEDATA      = "File data not specified"
+	ERROR_CANAL_INEXISTENTE = "Canal no encontrado"
+	ERROR_SUBS              = "Tiene que estar subscripto al canal"
+	ERR_NOT_FOUND_USER      = "User not found"
+	ERR_DECODING_FILE       = "Error getting base64 data"
+	MSG_CHANNEL_EXISTS      = "Channel already exists"
+	MSJ_SUBS                = "Suscripción exitosa"
+	MSJ_ARCHIVO_ENVIADO     = "Archivo enviado correctamente"
+	MSJ_ARCHIVO_RECIBIDO    = "Recibió el archivo %s"
 )
 
 var UserMessages = make(chan models.Message)
@@ -159,7 +157,7 @@ func ListAllChannels(address string) string {
 }
 
 func SubscribeToChannel(commands []string, address string) string {
-	response := ERR_NOT_FOUND_CHAN
+	response := ERROR_CANAL_INEXISTENTE
 	channelName := JoinCommands(commands)
 	if channel := FindChannelByName(channelName); channel != nil {
 		user := FindUserByAddress(address)
@@ -167,7 +165,7 @@ func SubscribeToChannel(commands []string, address string) string {
 			log.Fatal(ERR_NOT_FOUND_USER)
 		}
 		user.Channel.Name = channel.Name
-		response = MSG_SUBSCRIPTION
+		response = MSJ_SUBS
 	}
 	return response
 }
@@ -178,18 +176,18 @@ func SendFileToChannel(commands []string, address string) (string, string) {
 		log.Fatal(ERR_NOT_FOUND_USER)
 	}
 
-	responseOwn := ERR_NOT_SUBSCRIPTION
+	responseOwn := ERROR_SUBS
 	responseOthers := ""
 	if user.Channel.Name != "" {
-		responseOwn = ERR_NOT_FOUND_CHAN
+		responseOwn = ERROR_CANAL_INEXISTENTE
 		if channel := FindChannelByName(user.Channel.Name); channel != nil {
 			file, err := CreateBase64File(*user, commands)
 			if err != nil {
 				return ERR_DECODING_FILE, ""
 			}
 
-			responseOwn = MSG_FILE_SENT
-			responseOthers = fmt.Sprintf(MSG_FILE_RECEIVED, file.Name) + "~" + file.Name + "~" + file.Data
+			responseOwn = MSJ_ARCHIVO_ENVIADO
+			responseOthers = fmt.Sprintf(MSJ_ARCHIVO_RECIBIDO, file.Name) + "~" + file.Name + "~" + file.Data
 		}
 	}
 	return responseOwn, responseOthers

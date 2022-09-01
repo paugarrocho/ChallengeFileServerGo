@@ -32,7 +32,7 @@ const (
 	MSG_SUBSCRIPTION     = "Successful subscription"
 	MSG_MESSAGE_SENT     = "Message sent"
 	MSG_FILE_SENT        = "File sent successfully"
-	MSG_FILE_RECEIVED    = "File %s has been received"
+	MSG_FILE_RECEIVE     = "File %s has been received"
 )
 
 var UserMessages = make(chan models.Message)
@@ -230,7 +230,7 @@ func SendFileToChannel(commands []string, address string) (string, string) {
 			}
 
 			responseOwn = MSG_FILE_SENT
-			responseOthers = fmt.Sprintf(MSG_FILE_RECEIVED, file.Name) + "~" + file.Name + "~" + file.Data
+			responseOthers = fmt.Sprintf(MSG_FILE_RECEIVE, file.Name) + "~" + file.Name + "~" + file.Data
 		}
 	}
 	return responseOwn, responseOthers

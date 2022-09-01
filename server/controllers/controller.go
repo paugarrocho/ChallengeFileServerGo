@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"ChallengeFileServerGo/server/models"
-
 	"fmt"
 	"log"
 	"net"
@@ -32,7 +31,7 @@ const (
 	MSG_SUBSCRIPTION     = "Successful subscription"
 	MSG_MESSAGE_SENT     = "Message sent"
 	MSG_FILE_SENT        = "File sent successfully"
-	MSG_FILE_RECEIVE     = "File %s has been received"
+	MSG_FILE_RECEIVED    = "File %s has been received"
 )
 
 var UserMessages = make(chan models.Message)
@@ -40,14 +39,6 @@ var Messages = make(chan models.Message)
 var Users []models.User
 var Channels []models.ChannelRoom
 var Files []models.File
-
-/*func CreateDefaultChannels() {
-	Channels = []models.ChannelRoom{
-		{Name: "channel-1"},
-		{Name: "channel-2"},
-		{Name: "channel-3"},
-	}
-}*/
 
 func CreateMessage(msg string, user models.User) models.Message {
 	return models.Message{
@@ -126,7 +117,6 @@ func DecodeCommand(command, address string) (string, string) {
 				ownMessage, othersMessage = SendFileToChannel(commandParts[1:], address)
 			}
 		}
-
 	default:
 		ownMessage = ERR_UNDEF_COMM
 	}
@@ -230,7 +220,7 @@ func SendFileToChannel(commands []string, address string) (string, string) {
 			}
 
 			responseOwn = MSG_FILE_SENT
-			responseOthers = fmt.Sprintf(MSG_FILE_RECEIVE, file.Name) + "~" + file.Name + "~" + file.Data
+			responseOthers = fmt.Sprintf(MSG_FILE_RECEIVED, file.Name) + "~" + file.Name + "~" + file.Data
 		}
 	}
 	return responseOwn, responseOthers

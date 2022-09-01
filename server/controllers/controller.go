@@ -16,7 +16,6 @@ const (
 const (
 	ERR_MESSAGE_IN       = "Error in %s"
 	ERR_WRONG_COMM       = "Incorrect or incomplete command"
-	ERROR_COMANDO        = "Comando inválido"
 	ERR_UNDEF_MSG        = "Unspecified message"
 	ERR_UNDEF_CHAN       = "Unspecified channel"
 	ERR_UNDEF_PATH       = "Unspecified file"
@@ -26,7 +25,6 @@ const (
 	ERR_NOT_FOUND_USER   = "User not found"
 	ERR_DECODING_FILE    = "Error getting base64 data"
 	MSG_FROM_CHANNEL     = "Message from channel"
-	MSG_CHANNEL_CREATED  = "Channel created"
 	MSG_CHANNEL_EXISTS   = "Channel already exists"
 	MSG_SUBSCRIPTION     = "Successful subscription"
 	MSG_MESSAGE_SENT     = "Message sent"
@@ -104,7 +102,7 @@ func DecodeCommand(command, address string) (string, string) {
 			}
 		}
 	default:
-		ownMessage = ERROR_COMANDO
+		ownMessage = "Comando inválido"
 	}
 
 	return ownMessage, othersMessage
@@ -138,7 +136,7 @@ func CreateChannel(commands []string, address string) string {
 		}
 		Channels = append(Channels, newChannel)
 		user.Channel.Name = newChannel.Name
-		response = MSG_CHANNEL_CREATED
+		response = "Canal creado correctamente"
 	}
 	return response
 }
@@ -172,21 +170,6 @@ func SubscribeToChannel(commands []string, address string) string {
 		response = MSG_SUBSCRIPTION
 	}
 	return response
-}
-
-func BroadcastToChannel(commands []string, address string) (string, string) {
-	user := FindUserByAddress(address)
-	if user == nil {
-		log.Fatal(ERR_NOT_FOUND_USER)
-	}
-
-	responseOwn := ERR_NOT_SUBSCRIPTION
-	responseOthers := ""
-	if user.Channel.Name != "" {
-		responseOwn = MSG_MESSAGE_SENT
-		responseOthers = JoinCommands(commands)
-	}
-	return responseOwn, responseOthers
 }
 
 func SendFileToChannel(commands []string, address string) (string, string) {

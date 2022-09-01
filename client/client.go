@@ -2,7 +2,6 @@ package main
 
 import (
 	"ChallengeFileServerGo/client/controllers"
-
 	"bufio"
 	"fmt"
 	"log"
@@ -46,7 +45,7 @@ func main() {
 
 func handleReceiveFromServer(conn net.Conn, chIn chan string) {
 	//"|" indicates the end of the message
-	message, err := bufio.NewReaderSize(conn, controllers.MAX_BUFFER_CAPACITY).ReadString('|')
+	message, err := bufio.NewReaderSize(conn, controllers.MAX_BUFFER).ReadString('|')
 	if err != nil {
 		exitClient(false)
 	}
@@ -67,7 +66,7 @@ func handleReceiveFromServer(conn net.Conn, chIn chan string) {
 }
 
 func handleSendToServer(conn net.Conn) {
-	reader := bufio.NewReaderSize(os.Stdin, controllers.MAX_BUFFER_CAPACITY)
+	reader := bufio.NewReaderSize(os.Stdin, controllers.MAX_BUFFER)
 	fmt.Print(">> ")
 	text, err := reader.ReadString('\n')
 	if err != nil {

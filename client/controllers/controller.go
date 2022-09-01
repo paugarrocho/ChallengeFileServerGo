@@ -14,9 +14,9 @@ import (
 )
 
 const (
-	CHANNELS_FOLDER     = "/home/paugarrocho/Canales"
-	MAX_MEGABYTES       = 20
-	MAX_BUFFER_CAPACITY = MAX_MEGABYTES * 1024 * 1024
+	FOLDER     = "/home/paugarrocho/Canales"
+	MAX_MB     = 20
+	MAX_BUFFER = MAX_MB * 1024 * 1024
 )
 
 const (
@@ -32,7 +32,7 @@ const (
 
 func GetFolder(conn net.Conn) string {
 	addressData := strings.Split(conn.LocalAddr().String(), ":")
-	return CHANNELS_FOLDER + "/" + addressData[1]
+	return FOLDER + "/" + addressData[1]
 }
 
 func CreateFolder(conn net.Conn) error {
@@ -76,14 +76,14 @@ func DecodeFile(filePath string) (models.File, string) {
 	}
 	defer fileOpen.Close()
 
-	reader := bufio.NewReaderSize(fileOpen, MAX_BUFFER_CAPACITY)
+	reader := bufio.NewReaderSize(fileOpen, MAX_BUFFER)
 	content, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return models.File{}, err.Error()
 	}
 
-	if len(content) > MAX_BUFFER_CAPACITY {
-		return models.File{}, fmt.Sprintf(ERR_FILE_SIZE_LENGTH, MAX_MEGABYTES)
+	if len(content) > MAX_BUFFER {
+		return models.File{}, fmt.Sprintf(ERR_FILE_SIZE_LENGTH, MAX_MB)
 	}
 
 	pathData := strings.Split(filePath, "/")

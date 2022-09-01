@@ -20,14 +20,14 @@ const (
 )
 
 const (
-	ERR_CONNECTING_SERVER   = "Error connecting to server: %s"
-	ERR_CREATING_FOLDER     = "Error creating client folder: %s"
-	ERR_READING_CLIENT_DATA = "Error reading data from client: %s"
-	ERR_PATH_NOT_EXISTS     = "The specified path does not exist"
-	ERR_FILE_SIZE_LENGTH    = "The file size exceeds the maximum allowed of %d MB"
-	ERR_READING_FILE        = "Error reading file: %s"
-	MSG_GOODBYE             = "Goodbye!"
-	MSG_CONNECTION_CLOSED   = "The server has closed the connection"
+	ERROR_CONEXION         = "Error al conectarse al servidor: %s"
+	ERROR_CREACION_CARPETA = "Error creando carpeta: %s"
+	ERROR_LECTURA_CLIENTE  = "Error leyendo los datos del cliente: %s"
+	ERROR_RUTA_INEXISTENTE = "La ruta especificada no existe"
+	ERROR_TAM_ARCH         = "El tamaño del archivo excede el máximo permitido %d MB"
+	ERROR_LECTURA_ARCHIVO  = "Error de lectura del archivo: %s"
+	MSJ_SALIDA             = "Conexión terminada"
+	MSJ_CONEXION_CERRADA   = "El servidor ha terminado la conexión"
 )
 
 func GetFolder(conn net.Conn) string {
@@ -72,7 +72,7 @@ func CopyFile(fileName, fileData string, conn net.Conn) error {
 func DecodeFile(filePath string) (models.File, string) {
 	fileOpen, err := os.Open(filePath)
 	if err != nil {
-		return models.File{}, ERR_PATH_NOT_EXISTS
+		return models.File{}, ERROR_RUTA_INEXISTENTE
 	}
 	defer fileOpen.Close()
 
@@ -83,7 +83,7 @@ func DecodeFile(filePath string) (models.File, string) {
 	}
 
 	if len(content) > MAX_BUFFER {
-		return models.File{}, fmt.Sprintf(ERR_FILE_SIZE_LENGTH, MAX_MB)
+		return models.File{}, fmt.Sprintf(ERROR_TAM_ARCH, MAX_MB)
 	}
 
 	pathData := strings.Split(filePath, "/")

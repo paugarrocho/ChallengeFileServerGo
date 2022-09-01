@@ -12,21 +12,21 @@ import (
 )
 
 const (
-	CONN_HOST = "localhost"
-	CONN_PORT = "7777"
-	CONN_TYPE = "tcp"
+	HOST = "localhost"
+	PORT = "7777"
+	TIPO = "tcp"
 )
 
 func main() {
-	conn, err := net.Dial(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
+	conn, err := net.Dial(TIPO, HOST+":"+PORT)
 	if err != nil {
-		log.Fatalf(fmt.Sprintf(controllers.ERR_CONNECTING_SERVER, err.Error()))
+		log.Fatalf(fmt.Sprintf(controllers.ERROR_CONEXION, err.Error()))
 		return
 	}
 	defer conn.Close()
 
 	if err := controllers.CreateFolder(conn); err != nil {
-		log.Fatalf(fmt.Sprintf(controllers.ERR_CREATING_FOLDER, err.Error()))
+		log.Fatalf(fmt.Sprintf(controllers.ERROR_CREACION_CARPETA, err.Error()))
 		return
 	}
 
@@ -70,7 +70,7 @@ func handleSendToServer(conn net.Conn) {
 	fmt.Print(">> ")
 	text, err := reader.ReadString('\n')
 	if err != nil {
-		log.Fatalf(fmt.Sprintf(controllers.ERR_READING_CLIENT_DATA, err.Error()))
+		log.Fatalf(fmt.Sprintf(controllers.ERROR_LECTURA_CLIENTE, err.Error()))
 	}
 
 	text = strings.TrimSpace(text)
@@ -84,7 +84,7 @@ func handleSendToServer(conn net.Conn) {
 			file, err := controllers.DecodeFile(filePath)
 			text = commandParts[0] + " " + file.Name + " " + file.Data
 			if err != "" {
-				text = "image-wrcomm " + fmt.Sprintf(controllers.ERR_READING_FILE, err)
+				text = "image-wrcomm " + fmt.Sprintf(controllers.ERROR_LECTURA_ARCHIVO, err)
 			}
 		}
 	} else {
@@ -95,9 +95,9 @@ func handleSendToServer(conn net.Conn) {
 }
 
 func exitClient(userExit bool) {
-	message := "\n$$ " + fmt.Sprintf(controllers.MSG_CONNECTION_CLOSED)
+	message := "\n$$ " + fmt.Sprintf(controllers.MSJ_CONEXION_CERRADA)
 	if userExit {
-		message = "$$ " + fmt.Sprintf(controllers.MSG_GOODBYE)
+		message = "$$ " + fmt.Sprintf(controllers.MSJ_SALIDA)
 	}
 	fmt.Println(message)
 	os.Exit(0)

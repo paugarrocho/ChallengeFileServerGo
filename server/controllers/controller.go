@@ -113,6 +113,11 @@ func DecodeCommand(command, address string) (string, string) {
 		if commandParts[1] != "" {
 			ownMessage = SubscribeToChannel(commandParts[1:], address)
 		}
+	case "cast":
+		ownMessage = ERR_UNDEF_MSG
+		if commandParts[1] != "" {
+			ownMessage, othersMessage = BroadcastToChannel(commandParts[1:], address)
+		}
 	case "send":
 		ownMessage = ERR_UNDEF_PATH
 		if commandParts[1] != "" {

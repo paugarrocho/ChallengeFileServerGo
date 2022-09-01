@@ -2,6 +2,7 @@ package main
 
 import (
 	"ChallengeFileServerGo/client/controllers"
+
 	"bufio"
 	"fmt"
 	"log"
@@ -19,13 +20,13 @@ const (
 func main() {
 	conn, err := net.Dial(CONN_TYPE, CONN_HOST+":"+CONN_PORT)
 	if err != nil {
-		log.Fatal(fmt.Sprintf(controllers.ERR_CONNECTING_SERVER, err.Error()))
+		log.Fatalf(fmt.Sprintf(controllers.ERR_CONNECTING_SERVER, err.Error()))
 		return
 	}
 	defer conn.Close()
 
 	if err := controllers.CreateFolder(conn); err != nil {
-		log.Fatal(fmt.Sprintf(controllers.ERR_CREATING_FOLDER, err.Error()))
+		log.Fatalf(fmt.Sprintf(controllers.ERR_CREATING_FOLDER, err.Error()))
 		return
 	}
 
@@ -35,11 +36,10 @@ func main() {
 		go handleReceiveFromServer(conn, receiveFromServer)
 		go handleSendToServer(conn)
 
-		select {
-		case res := <-receiveFromServer:
-			//Prints the server response
-			fmt.Println(res)
-		}
+		res := <-receiveFromServer
+		//Prints the server response
+		fmt.Println(res)
+
 	}
 }
 
@@ -70,7 +70,7 @@ func handleSendToServer(conn net.Conn) {
 	fmt.Print(">> ")
 	text, err := reader.ReadString('\n')
 	if err != nil {
-		log.Fatal(fmt.Sprintf(controllers.ERR_READING_CLIENT_DATA, err.Error()))
+		log.Fatalf(fmt.Sprintf(controllers.ERR_READING_CLIENT_DATA, err.Error()))
 	}
 
 	text = strings.TrimSpace(text)

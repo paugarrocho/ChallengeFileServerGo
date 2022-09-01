@@ -25,6 +25,7 @@ const (
 	ERR_NOT_FOUND_USER      = "User not found"
 	ERR_DECODING_FILE       = "Error getting base64 data"
 	MSG_CHANNEL_EXISTS      = "Channel already exists"
+	MSG_FROM_CHANNEL        = ""
 	MSJ_SUBS                = "Suscripción exitosa"
 	MSJ_ARCHIVO_ENVIADO     = "Archivo enviado correctamente"
 	MSJ_ARCHIVO_RECIBIDO    = "Recibió el archivo %s"

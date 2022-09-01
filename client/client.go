@@ -13,7 +13,7 @@ import (
 
 const (
 	HOST = "localhost"
-	PORT = "7777"
+	PORT = "7777" //protocolo de transmision
 	TIPO = "tcp"
 )
 

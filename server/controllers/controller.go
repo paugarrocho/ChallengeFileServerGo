@@ -113,11 +113,6 @@ func DecodeCommand(command, address string) (string, string) {
 		if commandParts[1] != "" {
 			ownMessage = SubscribeToChannel(commandParts[1:], address)
 		}
-	case "cast":
-		ownMessage = ERR_UNDEF_MSG
-		if commandParts[1] != "" {
-			ownMessage, othersMessage = BroadcastToChannel(commandParts[1:], address)
-		}
 	case "send":
 		ownMessage = ERR_UNDEF_PATH
 		if commandParts[1] != "" {
@@ -126,11 +121,7 @@ func DecodeCommand(command, address string) (string, string) {
 				ownMessage, othersMessage = SendFileToChannel(commandParts[1:], address)
 			}
 		}
-	case "image-wrcomm":
-		ownMessage = ERR_UNDEF_MSG
-		if commandParts[1] != "" {
-			ownMessage = JoinCommands(commandParts[1:])
-		}
+
 	default:
 		ownMessage = ERR_UNDEF_COMM
 	}

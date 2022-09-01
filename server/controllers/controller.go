@@ -16,7 +16,7 @@ const (
 const (
 	ERR_MESSAGE_IN       = "Error in %s"
 	ERR_WRONG_COMM       = "Incorrect or incomplete command"
-	ERR_UNDEF_COMM       = "Invalid command"
+	ERROR_COMANDO        = "Comando inválido"
 	ERR_UNDEF_MSG        = "Unspecified message"
 	ERR_UNDEF_CHAN       = "Unspecified channel"
 	ERR_UNDEF_PATH       = "Unspecified file"
@@ -54,16 +54,6 @@ func CreateUser(conn net.Conn) {
 		Conn:    conn,
 	}
 	Users = append(Users, user)
-}
-
-func DeleteUser(address string) {
-	for i, user := range Users {
-		if user.Address != address {
-			continue
-		}
-		//Removes a client from the users array
-		Users = append(Users[:i], Users[i+1:]...)
-	}
 }
 
 func IsDestinationUser(message models.Message, user models.User) bool {
@@ -104,11 +94,7 @@ func DecodeCommand(command, address string) (string, string) {
 		if commandParts[1] != "" {
 			ownMessage = SubscribeToChannel(commandParts[1:], address)
 		}
-	case "cast":
-		ownMessage = ERR_UNDEF_MSG
-		if commandParts[1] != "" {
-			ownMessage, othersMessage = BroadcastToChannel(commandParts[1:], address)
-		}
+
 	case "send":
 		ownMessage = ERR_UNDEF_PATH
 		if commandParts[1] != "" {
@@ -118,7 +104,7 @@ func DecodeCommand(command, address string) (string, string) {
 			}
 		}
 	default:
-		ownMessage = ERR_UNDEF_COMM
+		ownMessage = ERROR_COMANDO
 	}
 
 	return ownMessage, othersMessage
@@ -163,11 +149,11 @@ func ListAllChannels(address string) string {
 		log.Fatal(ERR_NOT_FOUND_USER)
 	}
 
-	response := []string{"List of Channels:"}
+	response := []string{"Lista de Canales:"}
 	for _, ch := range Channels {
 		subscribed := ""
 		if user.Channel.Name == ch.Name {
-			subscribed = "<Subscribed>"
+			subscribed = "<Suscripto>"
 		}
 		response = append(response, fmt.Sprintf("\t%s %s", ch.Name, subscribed))
 	}

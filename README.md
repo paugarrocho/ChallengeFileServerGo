@@ -1,3 +1,6 @@
+Para correr: 1 go run server.go
+             2 go run client.go 
+
 Comandos para cliente:
 
 create: crea un canal. Ej: create canal1

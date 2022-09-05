@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	FOLDER     = "/home/paugarrocho/Canales"
+	FOLDER     = "/paugarrocho/challengeFileServerGo/Canales"
 	MAX_MB     = 20
 	MAX_BUFFER = MAX_MB * 1024 * 1024
 )

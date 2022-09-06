@@ -11,9 +11,7 @@ import (
 const (
 	API_PORT   = 3000
 	API_ORIGIN = "*"
-)
 
-const (
 	ERR_MESSAGE_IN          = "Error in %s"
 	ERR_WRONG_COMM          = "Incorrect or incomplete command"
 	ERR_UNDEF_MSG           = "Unspecified message"

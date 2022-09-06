@@ -204,7 +204,7 @@ func CreateBase64File(user models.User, commands []string) (models.File, error) 
 		data = dataFile[1]
 	}
 
-	//Renames the file if already exists
+	//Renombra el archivo si ya existe
 	count := 1
 	fileName := commands[0]
 	fileValid := false

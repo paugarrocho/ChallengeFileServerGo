@@ -24,7 +24,7 @@ func main() {
 		log.Fatal(fmt.Sprintf(controllers.ERR_MESSAGE_IN, "net.Listen:"), err.Error())
 	}
 
-	/*controllers.CreateDefaultChannels()*/
+
 	go broadcaster()
 	go apiServer()
 
@@ -44,7 +44,7 @@ func handle(conn net.Conn) {
 	controllers.CreateUser(conn)
 	address := conn.RemoteAddr().String()
 
-	//Get the data sent by a client
+	//Toma los datos enviados por el cliente
 	input := bufio.NewScanner(conn)
 	buf := make([]byte, MAX_BUFFER_CAPACITY)
 	input.Buffer(buf, MAX_BUFFER_CAPACITY)
@@ -61,11 +61,11 @@ func handle(conn net.Conn) {
 
 		messageToOwnUser, messageToOtherUsers := controllers.DecodeCommand(input.Text(), user.Address)
 		if messageToOwnUser != "" {
-			//Send message to same client
+			//Envia mensaje al mismo cliente
 			controllers.UserMessages <- controllers.CreateMessage(messageToOwnUser, *user)
 		}
 		if messageToOtherUsers != "" {
-			//Send message to another clients in the channel
+			//Envia el mje a otros clientes en el canal
 			controllers.Messages <- controllers.CreateMessage(messageToOtherUsers, *user)
 		}
 	}
@@ -74,7 +74,7 @@ func handle(conn net.Conn) {
 }
 
 func broadcaster() {
-	//"|" indicates the end of the message
+	//"|" indica el final del mje
 	for {
 		select {
 		case message := <-controllers.UserMessages:
@@ -91,7 +91,7 @@ func broadcaster() {
 					continue
 				}
 
-				//Send the message to another clients in the same channel (ex: send file)
+				//Envia el mje a los clientes en el mismo canal
 				if controllers.IsUserInChannel(message, user) {
 					fmt.Fprintln(user.Conn, "\n$$ "+controllers.MSG_FROM_CHANNEL+": "+message.Text+"|")
 				}

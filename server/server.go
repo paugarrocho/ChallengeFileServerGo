@@ -24,7 +24,6 @@ func main() {
 		log.Fatal(fmt.Sprintf(controllers.ERR_MESSAGE_IN, "net.Listen:"), err.Error())
 	}
 
-
 	go broadcaster()
 	go apiServer()
 

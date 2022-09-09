@@ -17,7 +17,7 @@ const (
 	FOLDER     = "/paugarrocho/challengeFileServerGo/Canales"
 	MAX_MB     = 20
 	MAX_BUFFER = MAX_MB * 1024 * 1024
-	
+
 	ERROR_CONEXION         = "Error al conectarse al servidor: %s"
 	ERROR_CREACION_CARPETA = "Error creando carpeta: %s"
 	ERROR_LECTURA_CLIENTE  = "Error leyendo los datos del cliente: %s"
